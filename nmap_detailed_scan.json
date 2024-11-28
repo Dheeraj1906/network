@@ -28,6 +28,11 @@
             "service": "commplex-link"
         },
         {
+            "port": "5500",
+            "state": "open",
+            "service": "hotline"
+        },
+        {
             "port": "5900",
             "state": "open",
             "service": "vnc"
@@ -48,15 +53,15 @@
             "service": "mysqlx"
         },
         {
-            "port": "55860",
+            "port": "56735",
             "state": "open",
             "service": "unknown"
         },
         {
-            "port": "56735",
+            "port": "63028",
             "state": "open",
             "service": "unknown"
         }
     ],
-    "raw_output": "Starting Nmap 7.95 ( https://nmap.org ) at 2024-11-28 22:57 IST\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.000040s latency).\nNot shown: 65524 closed tcp ports (conn-refused)\nPORT      STATE SERVICE\n445/tcp   open  microsoft-ds\n3000/tcp  open  ppp\n3306/tcp  open  mysql\n5000/tcp  open  upnp\n5001/tcp  open  commplex-link\n5900/tcp  open  vnc\n7000/tcp  open  afs3-fileserver\n8080/tcp  open  http-proxy\n33060/tcp open  mysqlx\n55860/tcp open  unknown\n56735/tcp open  unknown\n\nNmap done: 1 IP address (1 host up) scanned in 1.43 seconds\n"
+    "raw_output": "Starting Nmap 7.95 ( https://nmap.org ) at 2024-11-29 01:38 IST\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.000035s latency).\nNot shown: 65523 closed tcp ports (conn-refused)\nPORT      STATE SERVICE\n445/tcp   open  microsoft-ds\n3000/tcp  open  ppp\n3306/tcp  open  mysql\n5000/tcp  open  upnp\n5001/tcp  open  commplex-link\n5500/tcp  open  hotline\n5900/tcp  open  vnc\n7000/tcp  open  afs3-fileserver\n8080/tcp  open  http-proxy\n33060/tcp open  mysqlx\n56735/tcp open  unknown\n63028/tcp open  unknown\n\nNmap done: 1 IP address (1 host up) scanned in 1.37 seconds\n"
 }

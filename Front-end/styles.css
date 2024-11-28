@@ -34,4 +34,10 @@ a {
     margin: 20px auto;
     width: 50%;
     padding: 10px;
-    background: #28
+    background: #28a745;  
+    color: white;
+    border-radius: 4px;
+}
+a:hover {
+    background: #218838;
+}

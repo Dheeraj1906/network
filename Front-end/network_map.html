@@ -3,30 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Packet Capture</title>
+    <title>Network Map</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Capture Packets</h1>
-        <input type="text" id="captureInterface" placeholder="Enter Interface (e.g., en0)">
-        <input type="number" id="packetCount" placeholder="Number of Packets" min="1">
-        <button onclick="capturePackets()">Capture</button>
+        <h1>Network Map Viewer</h1>
+        <input type="text" id="subnet" placeholder="Enter Subnet (e.g., 192.168.1.0/24)">
+        <button onclick="fetchNetworkMap()">Get Network Map</button>
         <pre id="response"></pre>
         <a href="index.html">Back to Homepage</a>
     </div>
     <script>
         const baseUrl = "http://127.0.0.1:5001";
-        function capturePackets() {
-            const interfaceName = document.getElementById("captureInterface").value;
-            const count = document.getElementById("packetCount").value;
-            fetch(`${baseUrl}/capture?interface=${interfaceName}&count=${count}`)
+
+        // Function to fetch the network map from the backend
+        function fetchNetworkMap() {
+            const subnet = document.getElementById("subnet").value;
+            
+            if (!subnet) {
+                alert("Please enter a subnet.");
+                return;
+            }
+
+            // Fetch the network map based on the subnet entered
+            fetch(`${baseUrl}/network_map?subnet=${subnet}`)
                 .then(response => response.json())
                 .then(data => displayResponse(data))
-                .catch(err => displayResponse(err));
+                .catch(err => {
+                    console.error(err);
+                    displayResponse({ error: "Failed to fetch the network map." });
+                });
         }
+
+        // Function to display the response from the backend
         function displayResponse(data) {
-            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+            const responseElement = document.getElementById("response");
+            if (data.error) {
+                responseElement.textContent = `Error: ${data.error}`;
+            } else {
+                responseElement.textContent = JSON.stringify(data, null, 2);
+            }
         }
     </script>
 </body>

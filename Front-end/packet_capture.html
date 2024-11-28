@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Packet Capture</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,15 +35,17 @@
         <div id="output"></div>
         <a href="index.html">Back to Homepage</a>
     </div>
+
     <script>
         const baseUrl = "http://127.0.0.1:5001";
+
         function capturePackets() {
             const interfaceName = document.getElementById("captureInterface").value;
             const count = document.getElementById("packetCount").value;
             const output = document.getElementById("output");
 
             if (!interfaceName || !count) {
-                output.innerHTML = "<p style='color: red;'>Interface and packet count are required.</p>";
+                output.innerHTML = "<p class='error'>Interface and packet count are required.</p>";
                 return;
             }
 
@@ -31,16 +53,38 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        output.innerHTML = `<p style='color: red;'>Error: ${data.error}</p>`;
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
                     } else {
+                        const result = data.results;
                         output.innerHTML = `
                             <h3>Packet Capture Results</h3>
-                            <pre>${JSON.stringify(data.results, null, 2)}</pre>
+                            <table>
+                                <tr>
+                                    <th>Packet #</th>
+                                    <th>Source IP</th>
+                                    <th>Destination IP</th>
+                                    <th>Protocol</th>
+                                    <th>Length</th>
+                                </tr>
                         `;
+
+                        result.forEach((packet, index) => {
+                            output.innerHTML += `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${packet.source_ip}</td>
+                                    <td>${packet.dest_ip}</td>
+                                    <td>${packet.protocol}</td>
+                                    <td>${packet.length}</td>
+                                </tr>
+                            `;
+                        });
+
+                        output.innerHTML += "</table>";
                     }
                 })
                 .catch(err => {
-                    output.innerHTML = `<p style='color: red;'>An error occurred: ${err.message}</p>`;
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
                 });
         }
     </script>
