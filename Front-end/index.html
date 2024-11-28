@@ -43,19 +43,47 @@
         a:hover {
             background-color: #0056b3;
         }
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Network Tool Dashboard</h1>
-        <ul>
-            <li><a href="scan.html">Scan IP</a></li>
-            <li><a href="detailed_scan.html">Detailed Scan</a></li>
-            <li><a href="packet_capture.html">Capture Packets</a></li>
-            <li><a href="network_map.html">Network Mapping</a></li>
-            <li><a href="virustotal.html">VirusTotal Scan</a></li>
-            <li><a href="status.html">Check Service Status</a></li>
-        </ul>
+
+<script>
+    // Check if the user is logged in
+    if (!localStorage.getItem('loggedIn')) {
+        // If not logged in, redirect to login page
+        window.location.href = 'login.html';
+    }
+</script>
+
+<div class="container">
+    <h1>Network Tool Dashboard</h1>
+    <ul>
+        <li><a href="scan.html">Scan IP</a></li>
+        <li><a href="detailed_scan.html">Detailed Scan</a></li>
+        <li><a href="packet_capture.html">Capture Packets</a></li>
+        <li><a href="network_map.html">Network Mapping</a></li>
+        <li><a href="virustotal.html">VirusTotal Scan</a></li>
+        <li><a href="status.html">Check Service Status</a></li>
+    </ul>
+
+    <!-- Logout Link -->
+    <div class="logout-link">
+        <a href="javascript:void(0)" onclick="logout()">Logout</a>
     </div>
+</div>
+
+<script>
+    // Logout function
+    function logout() {
+        localStorage.removeItem('loggedIn');  // Remove login status
+        window.location.href = 'login.html';  // Redirect to login page
+    }
+</script>
+
 </body>
 </html>
