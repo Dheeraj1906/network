@@ -1,0 +1,52 @@
+{
+    "target_ip": "127.0.0.1",
+    "scan_type": "os_detection",
+    "open_ports": [
+        {
+            "port": "135",
+            "state": "open",
+            "service": "msrpc"
+        },
+        {
+            "port": "445",
+            "state": "open",
+            "service": "microsoft-ds"
+        },
+        {
+            "port": "902",
+            "state": "open",
+            "service": "iss-realsecure"
+        },
+        {
+            "port": "912",
+            "state": "open",
+            "service": "apex-mesh"
+        },
+        {
+            "port": "3000",
+            "state": "open",
+            "service": "ppp"
+        },
+        {
+            "port": "3306",
+            "state": "open",
+            "service": "mysql"
+        },
+        {
+            "port": "5001",
+            "state": "open",
+            "service": "commplex-link"
+        },
+        {
+            "port": "7070",
+            "state": "open",
+            "service": "realserver"
+        },
+        {
+            "port": "8080",
+            "state": "open",
+            "service": "http-proxy"
+        }
+    ],
+    "raw_output": "Starting Nmap 7.94 ( https://nmap.org ) at 2024-11-28 11:38 Eastern Standard Time\nNmap scan report for kubernetes.docker.internal (127.0.0.1)\nHost is up (0.00037s latency).\nNot shown: 991 closed tcp ports (reset)\nPORT     STATE SERVICE\n135/tcp  open  msrpc\n445/tcp  open  microsoft-ds\n902/tcp  open  iss-realsecure\n912/tcp  open  apex-mesh\n3000/tcp open  ppp\n3306/tcp open  mysql\n5001/tcp open  commplex-link\n7070/tcp open  realserver\n8080/tcp open  http-proxy\nNo exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).\nTCP/IP fingerprint:\nOS:SCAN(V=7.94%E=4%D=11/28%OT=135%CT=1%CU=34841%PV=N%DS=0%DC=L%G=Y%TM=67489\nOS:C76%P=i686-pc-windows-windows)SEQ(SP=FD%GCD=1%ISR=10F%CI=I%II=I%TS=A)SEQ\nOS:(SP=FD%GCD=1%ISR=10F%TI=I%CI=I%II=I%SS=S%TS=A)OPS(O1=MFFD7NW8ST11%O2=MFF\nOS:D7NW8ST11%O3=MFFD7NW8NNT11%O4=MFFD7NW8ST11%O5=MFFD7NW8ST11%O6=MFFD7ST11)\nOS:WIN(W1=FFFF%W2=FFFF%W3=FFFF%W4=FFFF%W5=FFFF%W6=FFFF)ECN(R=Y%DF=Y%T=80%W=\nOS:FFFF%O=MFFD7NW8NNS%CC=N%Q=)T1(R=Y%DF=Y%T=80%S=O%A=S+%F=AS%RD=0%Q=)T2(R=Y\nOS:%DF=Y%T=80%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)T3(R=Y%DF=Y%T=80%W=0%S=Z%A=O%F=AR\nOS:%O=%RD=0%Q=)T4(R=Y%DF=Y%T=80%W=0%S=A%A=O%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=80\nOS:%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=80%W=0%S=A%A=O%F=R%O=%RD=0%Q\nOS:=)T7(R=Y%DF=Y%T=80%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=80%IPL=164\nOS:%UN=0%RIPL=G%RID=G%RIPCK=Z%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=80%CD=Z)\n\nNetwork Distance: 0 hops\n\nOS detection performed. Please report any incorrect results at https://nmap.org/submit/ .\nNmap done: 1 IP address (1 host up) scanned in 11.86 seconds\n"
+}

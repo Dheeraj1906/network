@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Scan</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detailed Scan</h1>
+        <input type="text" id="detailedIp" placeholder="Enter IP address">
+        <select id="scanType">
+            <option value="default">Default</option>
+            <option value="stealth">Stealth</option>
+            <option value="service_version">Service Version</option>
+            <option value="os_detection">OS Detection</option>
+        </select>
+        <button onclick="detailedScan()">Run Detailed Scan</button>
+        <div id="output"></div>
+        <a href="index.html">Back to Homepage</a>
+    </div>
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+        function detailedScan() {
+    const ip = document.getElementById("detailedIp").value;
+    const type = document.getElementById("scanType").value;
+    const output = document.getElementById("output");
+
+    if (!ip) {
+        output.innerHTML = "<p style='color: red;'>IP Address is required.</p>";
+        return;
+    }
+
+    fetch(`${baseUrl}/detailed_scan?ip=${ip}&type=${type}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                output.innerHTML = `<p style='color: red;'>Error: ${data.error}</p>`;
+            } else {
+                // Build a table for open ports
+                const tableHeaders = `
+                    <tr>
+                        <th>Port</th>
+                        <th>State</th>
+                        <th>Service</th>
+                    </tr>`;
+                const tableRows = data.open_ports.map(port => `
+                    <tr>
+                        <td>${port.port}</td>
+                        <td>${port.state}</td>
+                        <td>${port.service}</td>
+                    </tr>
+                `).join("");
+
+                output.innerHTML = `
+                    <h3>Detailed Scan Results</h3>
+                    <p><b>Target IP:</b> ${data.target_ip}</p>
+                    <table>${tableHeaders}${tableRows}</table>
+                `;
+            }
+        })
+        .catch(err => {
+            output.innerHTML = `<p style='color: red;'>An error occurred: ${err.message}</p>`;
+        });
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan IP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Scan IP</h1>
+        <input type="text" id="scanIp" placeholder="Enter IP address">
+        <button onclick="scanIp()">Scan</button>
+        <div id="output"></div>
+        <a href="index.html">Back to Homepage</a>
+    </div>
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+        function scanIp() {
+            const ip = document.getElementById("scanIp").value;
+            const output = document.getElementById("output");
+
+            if (!ip) {
+                output.innerHTML = "<p style='color: red;'>IP Address is required.</p>";
+                return;
+            }
+
+            fetch(`${baseUrl}/scan?ip=${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p style='color: red;'>Error: ${data.error}</p>`;
+                    } else {
+                        output.innerHTML = `
+                            <h3>Scan Results</h3>
+                            <p><b>Target IP:</b> ${data.results.target_ip}</p>
+                            <p><b>Open Ports:</b> ${data.results.open_ports.join(", ")}</p>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    output.innerHTML = `<p style='color: red;'>An error occurred: ${err.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
