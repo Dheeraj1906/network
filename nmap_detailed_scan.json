@@ -3,14 +3,24 @@
     "scan_type": "default",
     "open_ports": [
         {
+            "port": "135",
+            "state": "open",
+            "service": "msrpc"
+        },
+        {
             "port": "445",
             "state": "open",
             "service": "microsoft-ds"
         },
         {
-            "port": "3000",
+            "port": "902",
             "state": "open",
-            "service": "ppp"
+            "service": "iss-realsecure"
+        },
+        {
+            "port": "912",
+            "state": "open",
+            "service": "apex-mesh"
         },
         {
             "port": "3306",
@@ -18,9 +28,14 @@
             "service": "mysql"
         },
         {
-            "port": "5000",
+            "port": "3688",
             "state": "open",
-            "service": "upnp"
+            "service": "simple-push-s"
+        },
+        {
+            "port": "3690",
+            "state": "open",
+            "service": "svn"
         },
         {
             "port": "5001",
@@ -28,24 +43,49 @@
             "service": "commplex-link"
         },
         {
-            "port": "5500",
+            "port": "5040",
             "state": "open",
-            "service": "hotline"
+            "service": "unknown"
         },
         {
-            "port": "5900",
+            "port": "7070",
             "state": "open",
-            "service": "vnc"
+            "service": "realserver"
         },
         {
-            "port": "7000",
+            "port": "7680",
             "state": "open",
-            "service": "afs3-fileserver"
+            "service": "pando-pub"
         },
         {
-            "port": "8080",
+            "port": "8000",
             "state": "open",
-            "service": "http-proxy"
+            "service": "http-alt"
+        },
+        {
+            "port": "12098",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "24830",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "27036",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "27060",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "29092",
+            "state": "open",
+            "service": "unknown"
         },
         {
             "port": "33060",
@@ -53,15 +93,55 @@
             "service": "mysqlx"
         },
         {
-            "port": "56735",
+            "port": "49664",
             "state": "open",
             "service": "unknown"
         },
         {
-            "port": "63028",
+            "port": "49665",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "49668",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "49669",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "49672",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "49740",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "54112",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "58085",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "63342",
+            "state": "open",
+            "service": "unknown"
+        },
+        {
+            "port": "65001",
             "state": "open",
             "service": "unknown"
         }
     ],
-    "raw_output": "Starting Nmap 7.95 ( https://nmap.org ) at 2024-11-29 01:38 IST\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.000035s latency).\nNot shown: 65523 closed tcp ports (conn-refused)\nPORT      STATE SERVICE\n445/tcp   open  microsoft-ds\n3000/tcp  open  ppp\n3306/tcp  open  mysql\n5000/tcp  open  upnp\n5001/tcp  open  commplex-link\n5500/tcp  open  hotline\n5900/tcp  open  vnc\n7000/tcp  open  afs3-fileserver\n8080/tcp  open  http-proxy\n33060/tcp open  mysqlx\n56735/tcp open  unknown\n63028/tcp open  unknown\n\nNmap done: 1 IP address (1 host up) scanned in 1.37 seconds\n"
+    "raw_output": "Starting Nmap 7.94 ( https://nmap.org ) at 2024-11-29 12:01 Eastern Standard Time\nNmap scan report for kubernetes.docker.internal (127.0.0.1)\nHost is up (0.000056s latency).\nNot shown: 65506 closed tcp ports (reset), 1 filtered tcp port (no-response)\nSome closed ports may be reported as filtered due to --defeat-rst-ratelimit\nPORT      STATE SERVICE\n135/tcp   open  msrpc\n445/tcp   open  microsoft-ds\n902/tcp   open  iss-realsecure\n912/tcp   open  apex-mesh\n3306/tcp  open  mysql\n3688/tcp  open  simple-push-s\n3690/tcp  open  svn\n5001/tcp  open  commplex-link\n5040/tcp  open  unknown\n7070/tcp  open  realserver\n7680/tcp  open  pando-pub\n8000/tcp  open  http-alt\n12098/tcp open  unknown\n24830/tcp open  unknown\n27036/tcp open  unknown\n27060/tcp open  unknown\n29092/tcp open  unknown\n33060/tcp open  mysqlx\n49664/tcp open  unknown\n49665/tcp open  unknown\n49668/tcp open  unknown\n49669/tcp open  unknown\n49672/tcp open  unknown\n49740/tcp open  unknown\n54112/tcp open  unknown\n58085/tcp open  unknown\n63342/tcp open  unknown\n65001/tcp open  unknown\n\nNmap done: 1 IP address (1 host up) scanned in 2.89 seconds\n"
 }

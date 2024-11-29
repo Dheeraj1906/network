@@ -1,4 +1,7 @@
 /* Same styling from the homepage can be reused */
+ body {
+            background-image: url('1.jpg');
+        }
 .container {
     max-width: 800px;
     margin: auto;
@@ -39,5 +42,5 @@ a {
     border-radius: 4px;
 }
 a:hover {
-    background: #218838;
+    background: "C:\Users\altaf\Documents\GitHub\New_project\network\image\1.jpg";
 }
