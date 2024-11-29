@@ -1,4 +1,7 @@
 /* Same styling from the homepage can be reused */
+ body {
+            background-image: url('1.jpg');
+        }
 .container {
     max-width: 800px;
     margin: auto;
@@ -34,4 +37,10 @@ a {
     margin: 20px auto;
     width: 50%;
     padding: 10px;
-    background: #28
+    background: #28a745;  
+    color: white;
+    border-radius: 4px;
+}
+a:hover {
+    background: "C:\Users\altaf\Documents\GitHub\New_project\network\image\1.jpg";
+}

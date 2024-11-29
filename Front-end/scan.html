@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan IP</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,14 +34,16 @@
         <div id="output"></div>
         <a href="index.html">Back to Homepage</a>
     </div>
+
     <script>
         const baseUrl = "http://127.0.0.1:5001";
+
         function scanIp() {
             const ip = document.getElementById("scanIp").value;
             const output = document.getElementById("output");
 
             if (!ip) {
-                output.innerHTML = "<p style='color: red;'>IP Address is required.</p>";
+                output.innerHTML = "<p class='error'>IP Address is required.</p>";
                 return;
             }
 
@@ -29,17 +51,26 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        output.innerHTML = `<p style='color: red;'>Error: ${data.error}</p>`;
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
                     } else {
+                        const result = data.results;
                         output.innerHTML = `
                             <h3>Scan Results</h3>
-                            <p><b>Target IP:</b> ${data.results.target_ip}</p>
-                            <p><b>Open Ports:</b> ${data.results.open_ports.join(", ")}</p>
+                            <table>
+                                <tr>
+                                    <th>Target IP</th>
+                                    <td>${result.target_ip}</td>
+                                </tr>
+                                <tr>
+                                    <th>Open Ports</th>
+                                    <td>${result.open_ports.join(", ")}</td>
+                                </tr>
+                            </table>
                         `;
                     }
                 })
                 .catch(err => {
-                    output.innerHTML = `<p style='color: red;'>An error occurred: ${err.message}</p>`;
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
                 });
         }
     </script>
