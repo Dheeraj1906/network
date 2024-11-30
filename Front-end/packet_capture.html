@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Packet Capture</title>
+    <title>Capture Packets</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         table {
@@ -24,6 +24,12 @@
         .error {
             color: red;
         }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -41,46 +47,55 @@
 
         function capturePackets() {
             const interfaceName = document.getElementById("captureInterface").value;
-            const count = document.getElementById("packetCount").value;
+            const packetCount = document.getElementById("packetCount").value;
             const output = document.getElementById("output");
 
-            if (!interfaceName || !count) {
+            if (!interfaceName || !packetCount) {
                 output.innerHTML = "<p class='error'>Interface and packet count are required.</p>";
                 return;
             }
 
-            fetch(`${baseUrl}/capture?interface=${interfaceName}&count=${count}`)
+            fetch(`${baseUrl}/capture?interface=${interfaceName}&count=${packetCount}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
                         output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
                     } else {
                         const result = data.results;
-                        output.innerHTML = `
-                            <h3>Packet Capture Results</h3>
+
+                        if (!result || result.length === 0) {
+                            output.innerHTML = "<p>No packets captured.</p>";
+                            return;
+                        }
+
+                        let tableHTML = `
+                            <h3>Capture Results</h3>
                             <table>
                                 <tr>
                                     <th>Packet #</th>
-                                    <th>Source IP</th>
-                                    <th>Destination IP</th>
+                                    <th>Timestamp</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
                                     <th>Protocol</th>
                                     <th>Length</th>
                                 </tr>
                         `;
 
-                        result.forEach((packet, index) => {
-                            output.innerHTML += `
+                        result.forEach(packet => {
+                            tableHTML += `
                                 <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${packet.source_ip}</td>
-                                    <td>${packet.dest_ip}</td>
-                                    <td>${packet.protocol}</td>
-                                    <td>${packet.length}</td>
+                                    <td>${packet.packet_number || "N/A"}</td>
+                                    <td>${packet.timestamp || "N/A"}</td>
+                                    <td>${packet.source || "N/A"}</td>
+                                    <td>${packet.destination || "N/A"}</td>
+                                    <td>${packet.protocol || "N/A"}</td>
+                                    <td>${packet.length || "N/A"}</td>
                                 </tr>
                             `;
                         });
 
-                        output.innerHTML += "</table>";
+                        tableHTML += "</table>";
+                        output.innerHTML = tableHTML;
                     }
                 })
                 .catch(err => {

@@ -1,35 +1,55 @@
 /* Same styling from the homepage can be reused */
- body {
-            background-image: url('1.jpg');
-        }
+body {
+    background-image: url('1.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Container styling */
 .container {
     max-width: 800px;
     margin: auto;
     padding: 20px;
-    background: white;
+    background: rgba(0, 0, 0, 0.6); /* Darkened background */
+    color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Centered header */
 h1 {
     text-align: center;
+    font-size: 32px;
+    color: #fff;
 }
+
+/* Styling for inputs, select, button, and pre */
 input, select, button, pre {
     display: block;
     width: 100%;
     margin: 10px 0;
     padding: 10px;
     font-size: 16px;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
 }
+
+/* Button Styling */
 button {
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
 button:hover {
     background-color: #0056b3;
 }
+
+/* Link Styling */
 a {
     display: block;
     text-align: center;
@@ -37,10 +57,49 @@ a {
     margin: 20px auto;
     width: 50%;
     padding: 10px;
-    background: #28a745;  
+    background-color: #28a745;  
     color: white;
     border-radius: 4px;
 }
+
 a:hover {
-    background: "C:\Users\altaf\Documents\GitHub\New_project\network\image\1.jpg";
+    background-color: #218838; /* Darker green */
+    transform: translateY(-2px);
 }
+
+/* Fix the hover background image path */
+a:hover {
+    background-image: url('image/1.jpg'); /* Correct the path to your image */
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Optional: Add a table for displaying values */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+/* Table Header */
+th {
+    background-color: #030c0b;
+    color:black;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Table Data */
+td {
+    background-color: rgba(99, 141, 225); /* Slightly transparent white for readability */
+    color:white;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Table Row Hover Effect */
+tr:hover {
+    background-color: rgba(0, 0, 0);
+}
+

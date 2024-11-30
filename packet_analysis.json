@@ -1,73 +1,39 @@
 [
     {
         "packet_number": "1",
-        "timestamp": "2024-11-29 01:38:33.715778",
-        "source": "140.82.114.26",
-        "destination": "192.168.0.105",
-        "protocol": "TCP",
-        "length": "66"
-    },
-    {
-        "packet_number": "2",
-        "timestamp": "2024-11-29 01:38:33.808007",
-        "info": "Non-IP packet detected"
-    },
-    {
-        "packet_number": "3",
-        "timestamp": "2024-11-29 01:38:36.022957",
+        "timestamp": "2024-11-30 21:41:39.409637",
         "source": "192.168.0.105",
-        "destination": "172.224.35.131",
-        "protocol": "DATA",
-        "length": "83"
-    },
-    {
-        "packet_number": "4",
-        "timestamp": "2024-11-29 01:38:36.184167",
-        "source": "192.168.0.105",
-        "destination": "172.224.35.131",
-        "protocol": "DATA",
-        "length": "83"
-    },
-    {
-        "packet_number": "5",
-        "timestamp": "2024-11-29 01:38:36.273388",
-        "source": "172.224.35.131",
-        "destination": "192.168.0.105",
-        "protocol": "DATA",
-        "length": "75"
-    },
-    {
-        "packet_number": "6",
-        "timestamp": "2024-11-29 01:38:36.273391",
-        "source": "172.224.35.131",
-        "destination": "192.168.0.105",
-        "protocol": "DATA",
-        "length": "75"
-    },
-    {
-        "packet_number": "7",
-        "timestamp": "2024-11-29 01:38:37.290653",
-        "source": "192.168.0.105",
-        "destination": "172.224.35.131",
+        "destination": "142.250.195.106",
         "protocol": "DATA",
         "length": "71"
     },
     {
-        "packet_number": "8",
-        "timestamp": "2024-11-29 01:38:37.312786",
-        "source": "172.224.35.131",
+        "packet_number": "2",
+        "timestamp": "2024-11-30 21:41:39.425415",
+        "source": "142.250.195.106",
         "destination": "192.168.0.105",
         "protocol": "DATA",
-        "length": "76"
+        "length": "67"
     },
     {
-        "packet_number": "9",
-        "timestamp": "2024-11-29 01:38:38.639561",
+        "packet_number": "3",
+        "timestamp": "2024-11-30 21:41:40.132542",
+        "source": "192.168.0.107",
+        "destination": "192.168.0.255",
+        "protocol": "NBNS",
+        "length": "92"
+    },
+    {
+        "packet_number": "4",
+        "timestamp": "2024-11-30 21:41:41.567288",
         "info": "Non-IP packet detected"
     },
     {
-        "packet_number": "10",
-        "timestamp": "2024-11-29 01:38:38.639669",
-        "info": "Non-IP packet detected"
+        "packet_number": "5",
+        "timestamp": "2024-11-30 21:41:42.629384",
+        "source": "192.168.0.105",
+        "destination": "142.250.195.106",
+        "protocol": "DATA",
+        "length": "71"
     }
 ]

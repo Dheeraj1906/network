@@ -3,30 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Packet Capture</title>
+    <title>VirusTotal IP Scan</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Capture Packets</h1>
-        <input type="text" id="captureInterface" placeholder="Enter Interface (e.g., en0)">
-        <input type="number" id="packetCount" placeholder="Number of Packets" min="1">
-        <button onclick="capturePackets()">Capture</button>
-        <pre id="response"></pre>
+        <h1>VirusTotal IP Scan</h1>
+        <input type="text" id="scanIp" placeholder="Enter IP address (e.g., 192.168.0.105)">
+        <button onclick="scanIp()">Scan</button>
+        <div id="output"></div>
         <a href="index.html">Back to Homepage</a>
     </div>
+
     <script>
-        const baseUrl = "http://127.0.0.1:5001";
-        function capturePackets() {
-            const interfaceName = document.getElementById("captureInterface").value;
-            const count = document.getElementById("packetCount").value;
-            fetch(`${baseUrl}/capture?interface=${interfaceName}&count=${count}`)
-                .then(response => response.json())
-                .then(data => displayResponse(data))
-                .catch(err => displayResponse(err));
+        const baseUrl = "http://127.0.0.1:5001";  // Backend URL for your API
+
+        // Function to validate IP address format
+        function isValidIP(ip) {
+            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return regex.test(ip);
         }
-        function displayResponse(data) {
-            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+
+        // Function to scan the IP address using the backend API
+        function scanIp() {
+            const ip = document.getElementById("scanIp").value;
+            const output = document.getElementById("output");
+
+            // Check if the IP is valid
+            if (!ip || !isValidIP(ip)) {
+                output.innerHTML = "<p class='error'>Please enter a valid IP address (e.g., 192.168.0.105).</p>";
+                return;
+            }
+
+            // Send a request to the backend API with the IP address
+            fetch(`${baseUrl}/virustotal?ip=${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
+                    } else {
+                        const result = data.data.attributes;
+
+                        // Check if result attributes exist
+                        if (!result) {
+                            output.innerHTML = "<p class='error'>No data available for this IP address from VirusTotal.</p>";
+                            return;
+                        }
+
+                        // Display the results in a table
+                        output.innerHTML = `
+                            <h3>VirusTotal Scan Results for IP: ${ip}</h3>
+                            <table>
+                                <tr><th>Attribute</th><th>Value</th></tr>
+                                <tr><td>Last Analysis Date</td><td>${new Date(result.last_analysis_date * 1000).toLocaleString()}</td></tr>
+                                <tr><td>Malicious</td><td>${result.last_analysis_stats.malicious}</td></tr>
+                                <tr><td>Harmless</td><td>${result.last_analysis_stats.harmless}</td></tr>
+                                <tr><td>Reputation</td><td>${result.reputation}</td></tr>
+                                <tr><td>Suspicious</td><td>${result.last_analysis_stats.suspicious}</td></tr>
+                                <tr><td>Undetected</td><td>${result.last_analysis_stats.undetected}</td></tr>
+                                <tr><td>First Submission Date</td><td>${new Date(result.first_submission_date * 1000).toLocaleString()}</td></tr>
+                                <tr><td>Whois Information</td><td>${result.whois || "N/A"}</td></tr>
+                            </table>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
+                });
         }
     </script>
 </body>
