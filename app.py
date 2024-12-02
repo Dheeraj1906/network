@@ -7,6 +7,10 @@ from packet_capture import capture_packets
 from network_mapping import create_network_map
 from external_tools import virustotal_scan
 from flask_cors import CORS
+from bruteforce_tools import brute_force_ssh
+from flask import send_from_directory
+from dns_tools import dns_recon
+from http_gruteforce import  brute_force_http
 
 app = Flask(__name__)
 CORS(app)
@@ -133,6 +137,10 @@ def filtered_capture_route():
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+@app.route('/<path:filename>', methods=['GET'])
+def serve_file(filename):
+    return send_from_directory('.', filename)
+
 #this is comment
 @app.route('/network_map', methods=['GET'])
 def network_map_route():
@@ -158,9 +166,27 @@ def network_map_route():
 #     except Exception as e:
 #         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+# Brute Force Attack Route
+@app.route('/bruteforce_ssh', methods=['POST'])
+def brute_force_ssh_route():
+    return brute_force_ssh(request.json)
+
+@app.route('/brute_force_http', methods=['POST'])
+def brute_force_http_route():
+    data = request.json
+    return brute_force_http(data)
+
+@app.route('/dns_recon', methods=['GET'])
+def dns_recon_route():
+    domain = request.args.get('domain')
+    if not domain:
+        return jsonify({"error": "Domain is required"}), 400
+    return dns_recon(domain)
+
+# Service Status Route
 @app.route('/status', methods=['GET'])
 def service_status():
-    return jsonify({"status": "Service is running", "version": "1.0.0"}), 200
+    return jsonify({"status": "Service is running", "version": "2.0.0"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)

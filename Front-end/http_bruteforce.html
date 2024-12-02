@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Brute Force</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        input, textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+        .results {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .results pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTTP Brute Force</h1>
+        <input type="text" id="targetUrl" placeholder="Enter Target URL (e.g., http://example.com/login)" />
+        <input type="text" id="username" placeholder="Enter Username (e.g., admin)" />
+        <textarea id="passwords" rows="5" placeholder="Enter Password List (comma-separated, e.g., password123,admin123)"></textarea>
+        <input type="text" id="loginField" placeholder="Login Field Name (default: username)" />
+        <input type="text" id="passwordField" placeholder="Password Field Name (default: password)" />
+        <button onclick="performHttpBruteForce()">Start Brute Force</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+
+        function performHttpBruteForce() {
+            const targetUrl = document.getElementById("targetUrl").value;
+            const username = document.getElementById("username").value;
+            const passwords = document.getElementById("passwords").value.split(",");
+            const loginField = document.getElementById("loginField").value || "username";
+            const passwordField = document.getElementById("passwordField").value || "password";
+            const output = document.getElementById("output");
+
+            if (!targetUrl || !username || passwords.length === 0) {
+                output.innerHTML = "<p class='error'>Please fill in all required fields.</p>";
+                return;
+            }
+
+            output.innerHTML = "<p>Loading...</p>";
+
+            fetch(`${baseUrl}/brute_force_http`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: targetUrl,
+                    username: username,
+                    passwords: passwords,
+                    login_field: loginField,
+                    password_field: passwordField
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
+                        return;
+                    }
+
+                    const results = data.results;
+                    let resultHtml = `<h3>Results</h3>`;
+
+                    // Display brute force results
+                    resultHtml += `<div class="results"><pre>${JSON.stringify(results, null, 4)}</pre></div>`;
+                    output.innerHTML = resultHtml;
+                })
+                .catch(err => {
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

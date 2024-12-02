@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brute Force SSH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        input, textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Brute Force SSH</h1>
+        <input type="text" id="targetIp" placeholder="Enter Target IP (e.g., 192.168.1.100)" />
+        <input type="text" id="username" placeholder="Enter Username (e.g., admin)" />
+        <textarea id="passwords" rows="5" placeholder="Enter Passwords (comma-separated, e.g., password1,password2,admin123)"></textarea>
+        <input type="number" id="port" placeholder="Enter Port (default: 22)" />
+        <button onclick="runBruteForce()">Start Brute Force</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+
+        function runBruteForce() {
+            const targetIp = document.getElementById("targetIp").value;
+            const username = document.getElementById("username").value;
+            const passwords = document.getElementById("passwords").value.split(",");
+            const port = document.getElementById("port").value || 22;
+            const output = document.getElementById("output");
+
+            if (!targetIp || !username || passwords.length === 0) {
+                output.innerHTML = "<p class='error'>Target IP, username, and passwords are required.</p>";
+                return;
+            }
+
+            output.innerHTML = "<p>Loading...</p>";
+
+            fetch(`${baseUrl}/bruteforce_ssh`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ip: targetIp,
+                    username: username,
+                    passwords: passwords,
+                    port: port
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
+                        return;
+                    }
+
+                    const results = data.results;
+
+                    if (!results || results.length === 0) {
+                        output.innerHTML = "<p>No results found.</p>";
+                        return;
+                    }
+
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Password</th>
+                                    <th>Success</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    results.forEach(result => {
+                        tableHTML += `
+                            <tr>
+                                <td>${result.password}</td>
+                                <td>${result.success ? "✅ Success" : "❌ Failed"}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+
+                    output.innerHTML = tableHTML;
+                })
+                .catch(err => {
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

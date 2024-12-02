@@ -1,0 +1,7 @@
+Flask
+flask-cors
+paramiko
+scapy
+pyshark
+networkx
+matplotlib

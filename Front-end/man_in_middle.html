@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITM Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MITM Simulation</h1>
+        <input type="text" id="interface" placeholder="Enter Network Interface (e.g., en0)" />
+        <input type="text" id="targetIp" placeholder="Enter Target IP (e.g., 192.168.60.128)" />
+        <input type="text" id="gatewayIp" placeholder="Enter Gateway IP (e.g., 192.168.60.1)" />
+        <button onclick="startMitm()">Start MITM</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+
+        function startMitm() {
+            const interfaceName = document.getElementById("interface").value;
+            const targetIp = document.getElementById("targetIp").value;
+            const gatewayIp = document.getElementById("gatewayIp").value;
+            const output = document.getElementById("output");
+
+            if (!interfaceName || !targetIp || !gatewayIp) {
+                output.innerHTML = "<p class='error'>All fields are required.</p>";
+                return;
+            }
+
+            output.innerHTML = "<p>Loading...</p>";
+
+            fetch(`${baseUrl}/mitm`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    interface: interfaceName,
+                    target_ip: targetIp,
+                    gateway_ip: gatewayIp
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
+                    } else {
+                        output.innerHTML = `<p>${data.message}</p>`;
+                    }
+                })
+                .catch(err => {
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,62 +1,6 @@
 {
-    "target_ip": "127.0.0.1",
+    "target_ip": "164.100.133.170",
     "scan_type": "default",
-    "open_ports": [
-        {
-            "port": "445",
-            "state": "open",
-            "service": "microsoft-ds"
-        },
-        {
-            "port": "3000",
-            "state": "open",
-            "service": "ppp"
-        },
-        {
-            "port": "3306",
-            "state": "open",
-            "service": "mysql"
-        },
-        {
-            "port": "5000",
-            "state": "open",
-            "service": "upnp"
-        },
-        {
-            "port": "5001",
-            "state": "open",
-            "service": "commplex-link"
-        },
-        {
-            "port": "5900",
-            "state": "open",
-            "service": "vnc"
-        },
-        {
-            "port": "7000",
-            "state": "open",
-            "service": "afs3-fileserver"
-        },
-        {
-            "port": "8080",
-            "state": "open",
-            "service": "http-proxy"
-        },
-        {
-            "port": "33060",
-            "state": "open",
-            "service": "mysqlx"
-        },
-        {
-            "port": "54275",
-            "state": "open",
-            "service": "unknown"
-        },
-        {
-            "port": "56735",
-            "state": "open",
-            "service": "unknown"
-        }
-    ],
-    "raw_output": "Starting Nmap 7.95 ( https://nmap.org ) at 2024-12-01 01:28 IST\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.00014s latency).\nNot shown: 65524 closed tcp ports (conn-refused)\nPORT      STATE SERVICE\n445/tcp   open  microsoft-ds\n3000/tcp  open  ppp\n3306/tcp  open  mysql\n5000/tcp  open  upnp\n5001/tcp  open  commplex-link\n5900/tcp  open  vnc\n7000/tcp  open  afs3-fileserver\n8080/tcp  open  http-proxy\n33060/tcp open  mysqlx\n54275/tcp open  unknown\n56735/tcp open  unknown\n\nNmap done: 1 IP address (1 host up) scanned in 1.76 seconds\n"
+    "open_ports": [],
+    "raw_output": "Starting Nmap 7.94 ( https://nmap.org ) at 2024-12-01 19:07 Eastern Standard Time\nNote: Host seems down. If it is really up, but blocking our ping probes, try -Pn\nNmap done: 1 IP address (0 hosts up) scanned in 3.23 seconds\n"
 }

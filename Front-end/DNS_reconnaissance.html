@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Reconnaissance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+        .results {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .results pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DNS Reconnaissance</h1>
+        <input type="text" id="domain" placeholder="Enter domain (e.g., example.com)" />
+        <button onclick="performDnsRecon()">Start Reconnaissance</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const baseUrl = "http://127.0.0.1:5001";
+
+        function performDnsRecon() {
+            const domain = document.getElementById("domain").value;
+            const output = document.getElementById("output");
+
+            if (!domain) {
+                output.innerHTML = "<p class='error'>Please enter a domain.</p>";
+                return;
+            }
+
+            output.innerHTML = "<p>Loading...</p>";
+
+            fetch(`${baseUrl}/dns_recon?domain=${domain}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerHTML = `<p class='error'>Error: ${data.error}</p>`;
+                        return;
+                    }
+
+                    const results = data.results;
+                    let resultHtml = `<h3>Reconnaissance Results for ${results.domain}</h3>`;
+
+                    // Display DNS records
+                    resultHtml += `<div class="results"><h4>DNS Records</h4><pre>${JSON.stringify(results.records, null, 4)}</pre></div>`;
+
+                    // Display Zone Transfer Results
+                    resultHtml += `<div class="results"><h4>Zone Transfer</h4><pre>${results.zone_transfer ? "Zone transfer is enabled" : "Zone transfer is not enabled"}</pre></div>`;
+
+                    // Display Subdomains
+                    resultHtml += `<div class="results"><h4>Subdomains</h4><pre>${JSON.stringify(results.subdomains, null, 4)}</pre></div>`;
+
+                    output.innerHTML = resultHtml;
+                })
+                .catch(err => {
+                    output.innerHTML = `<p class='error'>An error occurred: ${err.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
